@@ -3,9 +3,10 @@ import type { TableCategory } from "./tables";
 import { multiplicationTables, divisionTables } from "./tables";
 import { FlashcardGame } from "./games/FlashcardGame";
 import { QuizGame } from "./games/QuizGame";
+import { MemoryGame } from "./games/MemoryGame";
 import { progressManager, type Achievement } from "./progress";
 
-type GameMode = "flashcards" | "quiz";
+type GameMode = "flashcards" | "quiz" | "memory";
 type TableType = "multiplication" | "division";
 
 class TablesApp {
@@ -103,6 +104,11 @@ class TablesApp {
             <span class="mode-name">Quiz</span>
             <span class="mode-desc">Test je kennis!</span>
           </button>
+          <button class="game-mode-btn" data-mode="memory">
+            <span class="mode-emoji">🃏</span>
+            <span class="mode-name">Memory</span>
+            <span class="mode-desc">Zoek de juiste paren!</span>
+          </button>
         </div>
       </div>
     `;
@@ -126,7 +132,8 @@ class TablesApp {
     };
     const onHome = () => this.showHomePage();
     if (mode === "flashcards") new FlashcardGame(table.problems, gameContainer, onComplete, onHome);
-    else new QuizGame(table.problems, gameContainer, onComplete, onHome);
+    else if (mode === "quiz") new QuizGame(table.problems, gameContainer, onComplete, onHome);
+    else new MemoryGame(table.problems, gameContainer, onComplete, onHome);
   }
 
   private handleGameComplete(tableName: string, correct: number, total: number): void {
