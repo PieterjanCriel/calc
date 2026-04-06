@@ -37,12 +37,12 @@ class TablesApp {
           <button class="home-card" id="btn-multiply">
             <span class="home-card-icon">✖️</span>
             <h2>Vermenigvuldigen</h2>
-            <p>Oefen de tafels van 1 tot 10</p>
+            <p>Oefen de tafels van 1 tot 10 + mix!</p>
           </button>
           <button class="home-card" id="btn-divide">
             <span class="home-card-icon">➗</span>
             <h2>Delen</h2>
-            <p>Oefen deelsommen van 1 tot 10</p>
+            <p>Oefen deelsommen van 1 tot 10 + mix!</p>
           </button>
           <button class="home-card" id="btn-trophies">
             <span class="home-card-icon">🏆</span>
