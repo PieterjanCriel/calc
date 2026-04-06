@@ -1,0 +1,139 @@
+* { box-sizing: border-box; }
+
+:root {
+  --primary: #059669;
+  --primary-light: #34d399;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --bg-gradient: linear-gradient(135deg, #06b6d4 0%, #059669 100%);
+  --card-bg: white;
+  --text: #1f2937;
+  --text-light: #6b7280;
+}
+
+body { margin: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-gradient); min-height: 100vh; }
+#app { max-width: 900px; margin: 0 auto; padding: 20px; min-height: 100vh; }
+
+.home-page { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+.home-header { text-align: center; margin-bottom: 60px; }
+.home-header h1 { font-size: 3.5rem; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); margin-bottom: 15px; }
+.home-subtitle { font-size: 1.3rem; color: rgba(255,255,255,0.9); }
+.progress-stats { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.stat-item { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; color: white; font-weight: 600; }
+
+.home-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 900px; margin: 0 auto; }
+.home-card { background: white; border: none; border-radius: 25px; padding: 40px 30px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; align-items: center; gap: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); text-align: center; }
+.home-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.25); }
+.home-card-icon { font-size: 4rem; }
+.home-card h2 { margin: 0; font-size: 1.8rem; color: var(--text); }
+.home-card p { margin: 0; font-size: 1rem; color: var(--text-light); line-height: 1.5; }
+
+.main-menu { text-align: center; padding: 40px 20px; }
+.main-menu h1 { font-size: 3rem; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); margin-bottom: 10px; }
+.subtitle { color: rgba(255,255,255,0.9); font-size: 1.2rem; margin-bottom: 40px; }
+.categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; max-width: 700px; margin: 0 auto; }
+.category-btn { background: white; border: none; border-radius: 20px; padding: 25px 20px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.category-btn:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+.cat-emoji { font-size: 3rem; }
+.cat-name { font-size: 1.3rem; font-weight: 600; color: var(--text); }
+
+.btn-back { background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 1rem; margin-bottom: 20px; transition: background 0.2s; }
+.btn-back:hover { background: rgba(255,255,255,0.3); }
+
+.game-selection { text-align: center; padding: 20px; }
+.game-selection h2 { font-size: 2.5rem; color: white; margin-bottom: 5px; }
+.game-modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 750px; margin: 30px auto; }
+.game-mode-btn { background: white; border: none; border-radius: 20px; padding: 30px 20px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.game-mode-btn:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+.mode-emoji { font-size: 3.5rem; }
+.mode-name { font-size: 1.4rem; font-weight: 600; color: var(--text); }
+.mode-desc { font-size: 0.95rem; color: var(--text-light); }
+
+.game-container { background: white; border-radius: 25px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+.game-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 10px; position: relative; }
+.game-header h2 { margin: 0; font-size: 1.8rem; color: var(--text); }
+.btn-home { background: rgba(5,150,105,0.1); border: 2px solid var(--primary); border-radius: 12px; width: 50px; height: 50px; font-size: 1.5rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; padding: 0; position: absolute; left: 0; top: 0; }
+.btn-home:hover { background: var(--primary); transform: scale(1.1); box-shadow: 0 4px 12px rgba(5,150,105,0.3); }
+.progress, .score { background: var(--primary); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; }
+
+.flashcard-container { perspective: 1000px; margin: 20px auto; max-width: 400px; }
+.flashcard { width: 100%; min-height: 280px; cursor: pointer; transform-style: preserve-3d; transition: transform 0.6s; position: relative; }
+.flashcard.flipped { transform: rotateY(180deg); }
+.flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+.flashcard-front { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+.flashcard-back { background: linear-gradient(135deg, #34d399, #059669); transform: rotateY(180deg); }
+.flashcard .emoji { font-size: 5rem; }
+.flashcard .word { font-size: 2.5rem; font-weight: bold; color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); text-align: center; padding: 0 20px; }
+.flashcard .hint { font-size: 0.9rem; color: rgba(255,255,255,0.8); }
+
+.flashcard-buttons { display: flex; gap: 15px; justify-content: center; margin-top: 25px; }
+.btn { padding: 15px 30px; border: none; border-radius: 15px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+.btn:hover { transform: scale(1.05); }
+.btn-correct { background: var(--success); color: white; }
+.btn-wrong { background: var(--danger); color: white; }
+.btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(5,150,105,0.4); }
+
+.quiz-question { text-align: center; margin-bottom: 30px; }
+.quiz-question .emoji { font-size: 5rem; display: block; margin-bottom: 15px; }
+.quiz-question .question { font-size: 2rem; color: var(--text); font-weight: bold; }
+.quiz-options { display: grid; gap: 12px; max-width: 450px; margin: 0 auto; }
+.quiz-option { padding: 18px 25px; background: #f3f4f6; border: 3px solid #e5e7eb; border-radius: 15px; font-size: 1.4rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
+.quiz-option:hover:not(:disabled) { background: #e5e7eb; transform: translateX(5px); }
+.quiz-option.correct { background: #dcfce7; border-color: #22c55e; }
+.quiz-option.wrong { background: #fee2e2; border-color: #ef4444; }
+.quiz-option:disabled { cursor: default; }
+
+.feedback { text-align: center; font-size: 1.3rem; font-weight: 600; margin-top: 20px; padding: 10px; border-radius: 10px; animation: pop 0.3s ease; }
+.feedback.correct { background: #dcfce7; color: #16a34a; }
+.feedback.wrong { background: #fee2e2; color: #dc2626; }
+@keyframes pop { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+.results { text-align: center; padding: 40px 20px; }
+.results h2 { font-size: 2.5rem; margin-bottom: 30px; color: var(--text); }
+.results-score { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 40px; }
+.big-emoji { font-size: 5rem; }
+.score-text { font-size: 2.5rem; font-weight: bold; color: var(--primary); }
+
+/* Trophies Page */
+.trophies-page { max-width: 900px; margin: 0 auto; padding: 20px; }
+.trophies-page h1 { font-size: 2.5rem; color: white; text-align: center; margin-bottom: 10px; }
+.trophies-page .subtitle { text-align: center; margin-bottom: 30px; }
+.trophy-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 30px; }
+.trophy-stat-card { background: white; border-radius: 20px; padding: 25px 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.trophy-stat-icon { font-size: 2.5rem; }
+.trophy-stat-value { font-size: 2rem; font-weight: bold; color: var(--primary); margin: 5px 0; }
+.trophy-stat-label { font-size: 0.9rem; color: var(--text-light); }
+.achievements-section { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.achievements-section h2, .achievements-section h3 { color: var(--text); }
+.achievements-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+.achievement-card { border-radius: 15px; padding: 20px; text-align: center; }
+.achievement-card.unlocked { background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 2px solid #86efac; }
+.achievement-card.locked { background: #f3f4f6; border: 2px solid #e5e7eb; opacity: 0.7; }
+.achievement-emoji { font-size: 2.5rem; }
+.achievement-name { font-weight: 600; margin: 8px 0 4px; color: var(--text); }
+.achievement-desc { font-size: 0.85rem; color: var(--text-light); }
+.achievement-points { font-size: 0.8rem; color: var(--primary); font-weight: 600; margin-top: 8px; }
+.no-achievements { color: var(--text-light); text-align: center; }
+
+/* Achievement Notifications */
+.achievement-notifications { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; transition: opacity 0.5s; }
+.achievement-notification { background: white; border-radius: 15px; padding: 15px 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 15px; animation: slideIn 0.5s ease; }
+.achievement-notification-icon { font-size: 2rem; }
+.achievement-notification-title { font-size: 0.8rem; color: var(--warning); font-weight: 600; }
+.achievement-notification-name { font-weight: 600; color: var(--text); }
+.achievement-notification-points { font-size: 0.85rem; color: var(--primary); }
+@keyframes slideIn { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .home-header h1 { font-size: 2.5rem; }
+  .main-menu h1 { font-size: 2rem; }
+  .flashcard { height: 220px; }
+  .flashcard .emoji { font-size: 3rem; }
+  .flashcard .word { font-size: 1.8rem; }
+  .flashcard-buttons { flex-direction: column; }
+  .game-container { padding: 20px 15px; }
+  .home-card { padding: 30px 20px; }
+  .quiz-option { font-size: 1.2rem; }
+}
