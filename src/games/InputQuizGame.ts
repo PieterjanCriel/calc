@@ -1,14 +1,15 @@
 import type { Problem } from "../tables";
-import { shuffleArray, generateWrongAnswers } from "../tables";
+import { shuffleArray } from "../tables";
 import { playCelebration } from "../celebration";
 
-export class QuizGame {
+export class InputQuizGame {
   private problems: Problem[];
   private currentIndex: number = 0;
   private score: number = 0;
   private container: HTMLElement;
   private onComplete: (correct: number, total: number) => void;
   private onHome: () => void;
+  private currentInput: string = "";
 
   constructor(
     problems: Problem[],
@@ -25,56 +26,79 @@ export class QuizGame {
 
   private render(): void {
     (document.activeElement as HTMLElement)?.blur();
+    this.currentInput = "";
     const problem = this.problems[this.currentIndex];
-    const wrongAnswers = generateWrongAnswers(problem.answer, 3);
-    const options = shuffleArray([problem.answer, ...wrongAnswers]);
     const progress = `${this.currentIndex + 1} / ${this.problems.length}`;
 
     this.container.innerHTML = `
       <div class="game-header">
         <button class="btn-home" id="btn-home">Home</button>
-        <h2>Quiz</h2>
+        <h2>Typ het antwoord</h2>
         <div class="progress">${progress}</div>
         <div class="score">Score: ${this.score}</div>
       </div>
       <div class="quiz-question">
         <span class="question">${problem.question} = ?</span>
       </div>
-      <div class="quiz-options">
-        ${options.map((opt) => `
-          <button class="quiz-option" data-answer="${opt}" data-correct="${opt === problem.answer}">
-            ${opt}
-          </button>
+      <div class="input-display" id="input-display">_</div>
+      <div class="numpad">
+        ${[1,2,3,4,5,6,7,8,9,0].map(n => `
+          <button class="numpad-btn" data-digit="${n}">${n}</button>
         `).join("")}
+      </div>
+      <div class="input-actions">
+        <button class="btn btn-wrong" id="btn-reset">Reset</button>
+        <button class="btn btn-primary" id="btn-submit">OK</button>
       </div>
     `;
 
     document.getElementById("btn-home")?.addEventListener("click", this.onHome);
+    document.getElementById("btn-reset")?.addEventListener("click", () => this.resetInput());
+    document.getElementById("btn-submit")?.addEventListener("click", () => this.submitAnswer());
 
-    document.querySelectorAll(".quiz-option").forEach((btn) => {
+    document.querySelectorAll(".numpad-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
-        const target = e.currentTarget as HTMLElement;
-        const isCorrect = target.dataset.correct === "true";
-        this.handleAnswer(isCorrect, target);
+        const digit = (e.currentTarget as HTMLElement).dataset.digit!;
+        this.addDigit(digit);
       });
     });
   }
 
-  private handleAnswer(correct: boolean, button: HTMLElement): void {
-    document.querySelectorAll(".quiz-option").forEach((btn) => {
+  private addDigit(digit: string): void {
+    if (this.currentInput.length >= 4) return;
+    this.currentInput += digit;
+    this.updateDisplay();
+  }
+
+  private resetInput(): void {
+    this.currentInput = "";
+    this.updateDisplay();
+  }
+
+  private updateDisplay(): void {
+    const display = document.getElementById("input-display");
+    if (display) {
+      display.textContent = this.currentInput || "_";
+    }
+  }
+
+  private submitAnswer(): void {
+    if (this.currentInput === "") return;
+    const answer = parseInt(this.currentInput, 10);
+    const problem = this.problems[this.currentIndex];
+    const isCorrect = answer === problem.answer;
+
+    const display = document.getElementById("input-display")!;
+    document.querySelectorAll(".numpad-btn, #btn-reset, #btn-submit").forEach(btn => {
       (btn as HTMLButtonElement).disabled = true;
-      if (btn.getAttribute("data-correct") === "true") {
-        btn.classList.add("correct");
-      }
     });
 
-    if (correct) {
+    if (isCorrect) {
       this.score++;
-      button.classList.add("correct");
+      display.classList.add("correct");
       this.showFeedback("Correct!", true);
     } else {
-      button.classList.add("wrong");
-      const problem = this.problems[this.currentIndex];
+      display.classList.add("wrong");
       this.showFeedback(`Het antwoord is ${problem.answer}`, false);
     }
 
@@ -92,7 +116,7 @@ export class QuizGame {
     const feedback = document.createElement("div");
     feedback.className = `feedback ${isCorrect ? "correct" : "wrong"}`;
     feedback.textContent = message;
-    this.container.querySelector(".quiz-options")?.appendChild(feedback);
+    this.container.querySelector(".input-actions")?.after(feedback);
   }
 
   private showResults(): void {

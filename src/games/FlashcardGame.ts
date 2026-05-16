@@ -1,5 +1,6 @@
 import type { Problem } from "../tables";
 import { shuffleArray } from "../tables";
+import { playCelebration } from "../celebration";
 
 export class FlashcardGame {
   private problems: Problem[];
@@ -30,27 +31,25 @@ export class FlashcardGame {
 
     this.container.innerHTML = `
       <div class="game-header">
-        <button class="btn-home" id="btn-home">🏠</button>
-        <h2>🎴 Flashcards</h2>
+        <button class="btn-home" id="btn-home">Home</button>
+        <h2>Flashcards</h2>
         <div class="progress">${progress}</div>
-        <div class="score">⭐ ${this.score}</div>
+        <div class="score">Score: ${this.score}</div>
       </div>
       <div class="flashcard-container">
         <div class="flashcard ${this.isFlipped ? "flipped" : ""}" id="flashcard">
           <div class="flashcard-front">
-            <span class="emoji">${problem.emoji}</span>
             <span class="word">${problem.question}</span>
             <span class="hint">Klik om het antwoord te zien!</span>
           </div>
           <div class="flashcard-back">
-            <span class="emoji">✅</span>
             <span class="word">${problem.answer}</span>
           </div>
         </div>
       </div>
       <div class="flashcard-buttons">
-        <button class="btn btn-wrong" id="btn-wrong">❌ Niet geweten</button>
-        <button class="btn btn-correct" id="btn-correct">✅ Geweten!</button>
+        <button class="btn btn-wrong" id="btn-wrong">Niet geweten</button>
+        <button class="btn btn-correct" id="btn-correct">Geweten!</button>
       </div>
     `;
 
@@ -79,18 +78,18 @@ export class FlashcardGame {
   }
 
   private showResults(): void {
+    playCelebration();
     const percentage = Math.round((this.score / this.total) * 100);
-    const message = percentage >= 80 ? "🎉 Fantastisch!" : percentage >= 50 ? "👍 Goed gedaan!" : "💪 Blijf oefenen!";
+    const message = percentage >= 80 ? "Fantastisch!" : percentage >= 50 ? "Goed gedaan!" : "Blijf oefenen!";
 
     this.container.innerHTML = `
       <div class="results">
         <h2>${message}</h2>
         <div class="results-score">
-          <span class="big-emoji">⭐</span>
           <span class="score-text">${this.score} / ${this.total}</span>
           <span class="percentage">${percentage}%</span>
         </div>
-        <button class="btn btn-primary" id="btn-back">🏠 Terug naar menu</button>
+        <button class="btn btn-primary" id="btn-back">Terug naar menu</button>
       </div>
     `;
 

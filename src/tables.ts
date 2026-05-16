@@ -36,7 +36,7 @@ function generateDivisionTable(n: number): Problem[] {
   return problems;
 }
 
-function generateMixedMultiplication(tables: number[], count = 10): Problem[] {
+function generateMixedMultiplication(tables: number[], count = 20): Problem[] {
   const all = tables.flatMap((n) => generateMultiplicationTable(n));
   return shuffleArray(all).slice(0, count);
 }
@@ -44,27 +44,27 @@ function generateMixedMultiplication(tables: number[], count = 10): Problem[] {
 export const multiplicationTables: TableCategory[] = [
   ...Array.from({ length: 10 }, (_, i) => ({
     name: `Tafel van ${i + 1}`,
-    emoji: `${i + 1}️⃣`,
+    emoji: `${i + 1}`,
     problems: generateMultiplicationTable(i + 1),
   })),
   {
     name: "Mix 1-5",
-    emoji: "🔀",
+    emoji: "1-5",
     problems: generateMixedMultiplication([1, 2, 3, 4, 5]),
   },
   {
     name: "Mix 6 & 8",
-    emoji: "🎲",
+    emoji: "6&8",
     problems: generateMixedMultiplication([6, 8]),
   },
   {
     name: "Alles Mix",
-    emoji: "🌟",
+    emoji: "MIX",
     problems: generateMixedMultiplication([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
   },
 ];
 
-function generateMixedDivision(tables: number[], count = 10): Problem[] {
+function generateMixedDivision(tables: number[], count = 20): Problem[] {
   const all = tables.flatMap((n) => generateDivisionTable(n));
   return shuffleArray(all).slice(0, count);
 }
@@ -72,22 +72,22 @@ function generateMixedDivision(tables: number[], count = 10): Problem[] {
 export const divisionTables: TableCategory[] = [
   ...Array.from({ length: 10 }, (_, i) => ({
     name: `Delen door ${i + 1}`,
-    emoji: `${i + 1}️⃣`,
+    emoji: `${i + 1}`,
     problems: generateDivisionTable(i + 1),
   })),
   {
     name: "Mix 1-5",
-    emoji: "🔀",
+    emoji: "1-5",
     problems: generateMixedDivision([1, 2, 3, 4, 5]),
   },
   {
     name: "Mix 6 & 8",
-    emoji: "🎲",
+    emoji: "6&8",
     problems: generateMixedDivision([6, 8]),
   },
   {
     name: "Alles Mix",
-    emoji: "🌟",
+    emoji: "MIX",
     problems: generateMixedDivision([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
   },
 ];

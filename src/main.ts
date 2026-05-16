@@ -4,9 +4,10 @@ import { multiplicationTables, divisionTables } from "./tables";
 import { FlashcardGame } from "./games/FlashcardGame";
 import { QuizGame } from "./games/QuizGame";
 import { MemoryGame } from "./games/MemoryGame";
+import { InputQuizGame } from "./games/InputQuizGame";
 import { progressManager, type Achievement } from "./progress";
 
-type GameMode = "flashcards" | "quiz" | "memory";
+type GameMode = "flashcards" | "quiz" | "memory" | "input";
 type TableType = "multiplication" | "division";
 
 class TablesApp {
@@ -24,30 +25,30 @@ class TablesApp {
     this.container.innerHTML = `
       <div class="home-page">
         <div class="home-header">
-          <h1>🧮 Tafels Oefenen!</h1>
+          <h1>Tafels Oefenen!</h1>
           <p class="home-subtitle">Oefen de tafels van vermenigvuldiging en deling!</p>
           <div class="progress-bar-home">
             <div class="progress-stats">
-              <span class="stat-item">🏆 ${progress.totalPoints} punten</span>
-              <span class="stat-item">🔥 ${progress.currentStreak} dagen streak</span>
-              <span class="stat-item">⭐ ${progress.achievements.length}/${progressManager.getAchievements().length} badges</span>
+              <span class="stat-item">${progress.totalPoints} punten</span>
+              <span class="stat-item">${progress.currentStreak} dagen streak</span>
+              <span class="stat-item">${progress.achievements.length}/${progressManager.getAchievements().length} badges</span>
             </div>
           </div>
         </div>
         <div class="home-cards">
           <button class="home-card" id="btn-multiply">
-            <span class="home-card-icon">✖️</span>
+            <span class="home-card-icon">x</span>
             <h2>Vermenigvuldigen</h2>
             <p>Oefen de tafels van 1 tot 10 + mix!</p>
           </button>
           <button class="home-card" id="btn-divide">
-            <span class="home-card-icon">➗</span>
+            <span class="home-card-icon">/</span>
             <h2>Delen</h2>
             <p>Oefen deelsommen van 1 tot 10 + mix!</p>
           </button>
           <button class="home-card" id="btn-trophies">
-            <span class="home-card-icon">🏆</span>
-            <h2>Trofeeënkamer</h2>
+            <span class="home-card-icon">Trofee</span>
+            <h2>Trofeeenkamer</h2>
             <p>Bekijk je badges, punten en vooruitgang</p>
           </button>
         </div>
@@ -60,7 +61,7 @@ class TablesApp {
 
   private showTableSelection(): void {
     const tables = this.selectedType === "multiplication" ? multiplicationTables : divisionTables;
-    const title = this.selectedType === "multiplication" ? "✖️ Vermenigvuldigen" : "➗ Delen";
+    const title = this.selectedType === "multiplication" ? "Vermenigvuldigen" : "Delen";
     this.container.innerHTML = `
       <div class="main-menu">
         <button class="btn-back" id="back-to-home">← Home</button>
@@ -95,17 +96,18 @@ class TablesApp {
         <p class="subtitle">${t.problems.length} sommen om te oefenen!</p>
         <div class="game-modes">
           <button class="game-mode-btn" data-mode="flashcards">
-            <span class="mode-emoji">🎴</span>
             <span class="mode-name">Flashcards</span>
             <span class="mode-desc">Bekijk en leer de sommen</span>
           </button>
           <button class="game-mode-btn" data-mode="quiz">
-            <span class="mode-emoji">🧠</span>
             <span class="mode-name">Quiz</span>
-            <span class="mode-desc">Test je kennis!</span>
+            <span class="mode-desc">Kies het juiste antwoord</span>
+          </button>
+          <button class="game-mode-btn" data-mode="input">
+            <span class="mode-name">Typ het antwoord</span>
+            <span class="mode-desc">Typ zelf het juiste getal</span>
           </button>
           <button class="game-mode-btn" data-mode="memory">
-            <span class="mode-emoji">🃏</span>
             <span class="mode-name">Memory</span>
             <span class="mode-desc">Zoek de juiste paren!</span>
           </button>
@@ -133,6 +135,7 @@ class TablesApp {
     const onHome = () => this.showHomePage();
     if (mode === "flashcards") new FlashcardGame(table.problems, gameContainer, onComplete, onHome);
     else if (mode === "quiz") new QuizGame(table.problems, gameContainer, onComplete, onHome);
+    else if (mode === "input") new InputQuizGame(table.problems, gameContainer, onComplete, onHome);
     else new MemoryGame(table.problems, gameContainer, onComplete, onHome);
   }
 

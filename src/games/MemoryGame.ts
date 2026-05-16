@@ -1,5 +1,6 @@
 import type { Problem } from "../tables";
 import { shuffleArray } from "../tables";
+import { playCelebration } from "../celebration";
 
 interface Card {
   id: number;
@@ -40,7 +41,7 @@ export class MemoryGame {
     const cards: Card[] = [];
     problems.forEach((problem, index) => {
       cards.push({ id: index * 2, text: problem.question, emoji: problem.emoji, pairId: index, isFlipped: false, isMatched: false });
-      cards.push({ id: index * 2 + 1, text: `${problem.answer}`, emoji: "✅", pairId: index, isFlipped: false, isMatched: false });
+      cards.push({ id: index * 2 + 1, text: `${problem.answer}`, emoji: "=", pairId: index, isFlipped: false, isMatched: false });
     });
     this.cards = shuffleArray(cards);
   }
@@ -48,11 +49,11 @@ export class MemoryGame {
   private render(): void {
     this.container.innerHTML = `
       <div class="game-header">
-        <button class="btn-home" id="btn-home">🏠</button>
-        <h2>🃏 Memory</h2>
+        <button class="btn-home" id="btn-home">Home</button>
+        <h2>Memory</h2>
         <div class="stats">
-          <span>🎯 ${this.matches}/${this.totalPairs}</span>
-          <span>🔄 ${this.moves} zetten</span>
+          <span>${this.matches}/${this.totalPairs} paren</span>
+          <span>${this.moves} zetten</span>
         </div>
       </div>
       <div class="matching-grid" id="matching-grid">
@@ -60,7 +61,7 @@ export class MemoryGame {
           <div class="match-card ${card.isFlipped ? "flipped" : ""} ${card.isMatched ? "matched" : ""}"
                data-id="${card.id}">
             <div class="match-card-inner">
-              <div class="match-card-front">❓</div>
+              <div class="match-card-front">?</div>
               <div class="match-card-back">
                 <span class="emoji">${card.emoji}</span>
                 <span class="text">${card.text}</span>
@@ -102,8 +103,8 @@ export class MemoryGame {
       cardEl.classList.toggle("matched", card.isMatched);
     }
     document.querySelector(".stats")!.innerHTML = `
-      <span>🎯 ${this.matches}/${this.totalPairs}</span>
-      <span>🔄 ${this.moves} zetten</span>
+      <span>${this.matches}/${this.totalPairs} paren</span>
+      <span>${this.moves} zetten</span>
     `;
   }
 
@@ -134,15 +135,15 @@ export class MemoryGame {
   }
 
   private showResults(): void {
-    const stars = this.moves <= 8 ? "⭐⭐⭐" : this.moves <= 12 ? "⭐⭐" : "⭐";
+    playCelebration();
+    const stars = this.moves <= 8 ? "***" : this.moves <= 12 ? "**" : "*";
     this.container.innerHTML = `
       <div class="results">
-        <h2>🎉 Geweldig!</h2>
+        <h2>Geweldig!</h2>
         <div class="results-score">
-          <span class="big-emoji">${stars}</span>
-          <span class="score-text">${this.moves} zetten</span>
+          <span class="score-text">${stars} - ${this.moves} zetten</span>
         </div>
-        <button class="btn btn-primary" id="btn-back">🏠 Terug naar menu</button>
+        <button class="btn btn-primary" id="btn-back">Terug naar menu</button>
       </div>
     `;
     document.getElementById("btn-back")?.addEventListener("click", () =>
